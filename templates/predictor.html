@@ -1,0 +1,12 @@
+<html>
+   <body>
+      <form action = "http://localhost:5000/method" method = "POST" 
+         enctype = "multipart/form-data">
+         	<label id="predictor" name="predictor">Choose a predictor(s):</label>
+		{% for item in data %}
+    			<input type="checkbox" name="predictor" value="{{item.col_name}}" id="{{item.col_name}}" for="predictor">{{item.col_name}}<br>
+		{% endfor %}
+         	<input type = "submit"/>
+      	</form>
+   </body>
+</html>

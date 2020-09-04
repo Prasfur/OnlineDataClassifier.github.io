@@ -1,0 +1,42 @@
+<html>
+<head>
+<script>
+
+function check_up(){
+  document.getElementById('upload').disabled=false;
+}
+function check_size(){
+ var fi=document.getElementById('file');
+ var fileName=fi.value;
+ 
+ if ((/^(.)*[.][c/C][s/S][v/V]$/).test(fileName)){
+  if(fi.files.length>0){
+   for (var i=0;i<=fi.files.length-1;i++){ 
+    var fsize=fi.files.item(i).size;
+    var file=Math.round((fsize/1024));
+    if (file>=4096){
+     alert("File too Big! Please select a file less than 25 MB");
+     document.getElementById('upload').disabled=true;
+    }
+   }
+  }
+ }
+ 
+ else{
+  alert('Please upload .csv file!');
+  document.getElementById('upload').disabled=true;
+ }
+
+}
+</script>
+</head>
+   <body>
+      <form action = "http://localhost:5000/predictor" method = "POST" 
+         enctype = "multipart/form-data">
+	<label><b>Upload the file (max size: 25 MB)</b></label><br><br>
+         <input type = "file" name = "file" id="file" accept=".csv" onchange='check_up()'/>
+         <input type = "submit" id="upload" value="Upload" onclick='check_size()'/>
+	<input type = "reset" id="reset" value="Reset" onclick='location.reload()'/><br><br>
+      </form>
+   </body>
+</html>

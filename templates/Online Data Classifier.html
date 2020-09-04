@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<title>Online Data Classifier</title>
+<script>
+
+function check_up(){
+ document.getElementById('fil').disabled=true;
+}
+
+function check_size(){
+ var fi=document.getElementById('fil');
+ var fileName=fi.value;
+ 
+ if ((/^(.)*[.][c/C][s/S][v/V]$/).test(fileName)){
+  if(fi.files.length>0){
+   for (var i=0;i<=fi.files.length-1;i++){ 
+    var fsize=fi.files.item(i).size;
+    var file=Math.round((fsize/1024));
+    if (file>=4096){
+     alert("File too Big! Please select a file less than 25 MB");
+    }
+   }
+  }
+ }
+ 
+ else{
+  alert('Please upload .csv file!');
+ }
+
+}
+
+function range(){
+ var s=document.getElementById('points').value;
+ document.getElementById('val').innerHTML=s;
+}
+
+function para(){
+ var met=document.getElementById('method').value;
+ if (met=='KNN'){
+  document.getElementById('param').innerHTML='<br><label>Select K-Value</label>&nbsp&nbsp&nbsp&nbsp<input type=\'number\' min=\'1\' max=\'20\' value=1 />';
+ }
+ 
+ else if (met=='SVM'){
+  document.getElementById('param').innerHTML='<br><label>Select Kernel</label>&nbsp&nbsp&nbsp&nbsp<select id=\"kernel\"> <option value=\"rbf\" selected>Radial basis function</option><option value=\"linear\">Linear</option><option value=\"poly\">Polynomial</option><option value=\"sigmoid\">Sigmoid</option></select>';
+ }
+  
+ else if (met=='LR'){
+  document.getElementById('param').innerHTML='<br><label>Select Solver</label>&nbsp&nbsp&nbsp&nbsp<select id=\"kernel\"> <option value=\"liblinear\" selected>LibLinear</option><option value=\"newton-cg\">Newton Conjugate Gradient</option><option value=\"sag\">Stochastic Average Gradient Descent</option><option value=\"saga\">SAGA</option><option value=\"lbfgs\">Limited-memory Broyden–Fletcher–Goldfarb–Shanno</option></select>';
+ }
+
+ else if (met=='DT'){
+  document.getElementById('param').innerHTML='';
+ }
+
+}
+
+function say(){
+ var algo=document.getElementById('method').value;
+ var fi=document.getElementById('fil');
+ var ck=document.getElementById('forindep').innerHTML;
+ var dp=document.getElementById('p2').innerHTML;
+
+ if (1){
+  check_size();
+ }
+
+ if (ck==''){
+  alert('Please click on Upload!');
+ }
+
+ else if(dp==''){
+  alert('Please select Predictors!')
+ }
+
+ else if (fi.files.length==0){
+  alert("Please select a file!");
+ }
+
+ else if (algo==""){
+  alert('Please select training method!')
+ }
+
+ else if (algo=='KNN'){
+  document.getElementById('p5').innerHTML='<b>Class:</b><br><br><b>Best K-Value:</b>';
+  document.getElementById('p6').innerHTML='<b>Accuracy:</b>';
+ }
+
+ else if(algo=='DT'){
+  document.getElementById('p5').innerHTML='<b>Class:</b><br><br><b>Best Depth:</b>';
+  document.getElementById('p6').innerHTML='<b>Accuracy:</b>';
+ }
+
+ else{
+  document.getElementById('p5').innerHTML='<b>Class:</b>';
+  document.getElementById('p6').innerHTML='<b>Accuracy:</b>';
+ }
+
+}
+</script>
+</head>
+<body>
+
+<div style='background-color:black; color:white;'>
+<h2><center>Online Data Classifier</center></h2>
+</div>
+
+<div>
+<p><i><center>This website provides the users to upload their CSV dataset, apply Machine Learning techniques and see results.</center></i></p>
+</div>
+
+<label for="fil" ><b>Upload the file (max size: 25 MB)</b></label><br><br>
+<input type="file" id="fil" accept=".csv" onchange='check_up()' /><br><br>
+<input type="button" id="upload" value="Upload" onclick='check_size()' />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<button onclick='location.reload()'>Reset</button><br><br>
+
+<p id='forindep'></p>
+<div id='indep'></div>
+
+<p id='p2'></p>
+<div id='dep'></div>
+
+<p id='p3'><b>Select training method</b></p>
+<select id="method" onchange='para()'>
+<option value="" disabled selected>-----</option>
+<option value="KNN">K-Nearest Neighbor</option>
+<option value="SVM">Support Vector Machine</option>
+<option value="LR">Logistic Regression</option>
+<option value="DT">Decision Tree</option>
+</select>
+
+<div id='param'></div><br>
+
+<label for="points"><b>Select train data split %</b></label>
+<input type="range" id="points" name="points" min="50" max="100" oninput='range()'>
+<label for="points" id='val'>75</label><br><br>
+
+<button onclick='say()'>Predict</button>
+
+<p id='p5'><b></b></p>
+<p id='p6'><b></b></p>
+
+<div id='names' style="background-color:powderblue;">
+<p>About us:</p>
+<p><b>Rahul Sharma</b>:&nbsp&nbsp&nbsp&nbspRoll No: N269&nbsp&nbsp&nbsp&nbsp<a>Visit LinkedIn Profile</a></p>
+<p><b>Prateek Shukla</b>:&nbsp&nbsp&nbspRoll No: N273&nbsp&nbsp&nbsp&nbsp<a>Visit LinkedIn Profile</a></p>
+<p><b>Divyansh Tiwari</b>:&nbspRoll No: N283&nbsp&nbsp&nbsp&nbsp<a href='https://www.linkedin.com/in/dt03/'>Visit LinkedIn Profile</a></p>
+<p><b>Prasfur Tiwari</b>:&nbsp&nbsp&nbsp&nbspRoll No: N284&nbsp&nbsp&nbsp&nbsp<a href='https://www.linkedin.com/in/prasfur-tiwari-b93818178/'>Visit LinkedIn Profile</a></p>
+</div>
+</body>
+</html>
